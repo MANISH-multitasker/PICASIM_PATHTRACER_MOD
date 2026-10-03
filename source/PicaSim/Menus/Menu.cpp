@@ -1,0 +1,182 @@
+#include "Menu.h"
+#include "StartMenu.h"
+#include "Framework.h"
+#include "LoadingScreen.h"
+#include "../GameSettings.h"
+#include "../PicaJoystick.h"
+#include "../../Platform/S3ECompat.h"
+
+#if !defined(PS_PLATFORM_IOS)
+    #include <filesystem>
+#else
+    #include <dirent.h>
+    #include <sys/stat.h>
+#endif
+
+typedef std::map<std::string, Texture*> TextureMap;
+TextureMap* sTextureMap = 0;
+
+//======================================================================================================================
+void CacheThumbnailsFromDir(const char* path, bool convertTo16Bit, LoadingScreen* loadingScreen, const char* txt)
+{
+    if (loadingScreen)
+        loadingScreen->Update(txt);
+
+#if defined(PS_PLATFORM_IOS)
+    // iOS 12 compatibility: dirent-based directory scanning (std::filesystem unavailable)
+    struct stat st;
+    if (stat(path, &st) != 0 || !S_ISDIR(st.st_mode))
+        return;
+
+    DIR* dir = opendir(path);
+    if (!dir)
+        return;
+
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != nullptr)
+    {
+        if (loadingScreen) loadingScreen->Update(0);
+
+        if (entry->d_type != DT_REG)
+            continue;
+
+        std::string filename = entry->d_name;
+        size_t len = filename.length();
+        if (len > 4)
+        {
+            std::string ext = filename.substr(len - 4);
+            if (ext == ".jpg" || ext == ".png" || ext == ".JPG" || ext == ".PNG")
+            {
+                std::string fullPath = std::string(path) + "/" + filename;
+                GetCachedTexture(fullPath, convertTo16Bit);
+            }
+        }
+    }
+    closedir(dir);
+#else
+    namespace fs = std::filesystem;
+
+    std::error_code ec;
+    if (!fs::exists(path, ec) || !fs::is_directory(path, ec))
+        return;
+
+    for (const auto& entry : fs::directory_iterator(path, ec))
+    {
+        if (loadingScreen) loadingScreen->Update(0);
+
+        if (!entry.is_regular_file(ec))
+            continue;
+
+        std::string filename = entry.path().filename().string();
+        size_t len = filename.length();
+        if (len > 4)
+        {
+            std::string ext = filename.substr(len - 4);
+            if (ext == ".jpg" || ext == ".png")
+            {
+                std::string fullPath = entry.path().string();
+                GetCachedTexture(fullPath, convertTo16Bit);
+            }
+        }
+    }
+#endif
+}
+
+//======================================================================================================================
+float GetImagesPerLoadScreen(const GameSettings& gameSettings)
+{
+    int screenHeight = gameSettings.mOptions.mFrameworkSettings.mScreenHeight;
+    int heightForMinImages = 480;
+    int heightForMaxImages = 800;
+    float minImages = 3.0f;
+    float maxImages = 5.0f;
+
+    float f = float(screenHeight - heightForMinImages) / (heightForMaxImages - heightForMinImages);
+    f = ClampToRange(f, 0.0f, 1.0f);
+    return minImages + (maxImages - minImages) * f;
+}
+
+//======================================================================================================================
+bool UpdateResourceGroupForScreen(const GameSettings& gameSettings)
+{
+    gameSettings.mOptions.mFrameworkSettings.UpdateScreenDimensions(); // const but mutable...
+    return true;
+}
+
+//======================================================================================================================
+void MenuInit(const GameSettings& gameSettings)
+{
+    sTextureMap = new TextureMap;
+    UpdateResourceGroupForScreen(gameSettings);
+}
+
+//======================================================================================================================
+void MenuTerminate()
+{
+    ReleaseCachedTextures();
+    delete sTextureMap;
+    sTextureMap = 0;
+}
+
+//======================================================================================================================
+void ReleaseCachedTextures()
+{
+    if (sTextureMap)
+    {
+        for (TextureMap::iterator it = sTextureMap->begin() ; it != sTextureMap->end() ; ++it)
+            delete it->second;
+    }
+    sTextureMap->clear();
+}
+
+//======================================================================================================================
+Texture* GetCachedTexture(std::string path, bool convertTo16Bit)
+{
+    IwAssert(ROWLHOUSE, sTextureMap);
+
+    std::string pathLower = path;
+    std::transform(pathLower.begin(), pathLower.end(), pathLower.begin(),
+        [](unsigned char c) { return std::tolower(c); });
+
+    TextureMap::iterator it = sTextureMap->find(pathLower);
+    if (it == sTextureMap->end())
+    {
+        TRACE_FILE_IF(ONCE_2) TRACE("Loading texture %s", path.c_str());
+        Texture* texture = new Texture;
+        texture->LoadFromFile(path.c_str());
+        if (texture->GetWidth() > 0 && texture->GetHeight() > 0)
+        {
+            (*sTextureMap)[pathLower] = texture;
+            texture->SetMipMapping(false);
+            if (convertTo16Bit)
+                texture->SetFormatHW(CIwImage::RGB_565);
+            texture->Upload();
+            return texture;
+        }
+        else
+        {
+            TRACE_FILE_IF(ONCE_1) TRACE("Failed to load texture %s", path.c_str());
+            delete texture;
+            return 0;
+        }
+    }
+    else
+    {
+        // Note: Don't trace here - with ImGui immediate mode this is called every frame
+        return it->second;
+    }
+}
+
+//======================================================================================================================
+void OpenWebsite(const GameSettings& gameSettings)
+{
+    Platform::OpenURL("http://www.rowlhouse.co.uk/PicaSim");
+}
+
+//======================================================================================================================
+void NewVersion()
+{
+    Platform::OpenURL("http://www.rowlhouse.co.uk/PicaSim/download.html");
+}
+
+

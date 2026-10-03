@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<Lighting
+  lightBearing="-10"
+  lightElevation="24"
+  ambientLightR="0.35"
+  ambientLightG="0.32"
+  ambientLightB="0.32"
+  diffuseLightR="0.95"
+  diffuseLightG="0.95"
+  diffuseLightB="0.95"
+  shadowStrength="0.05"
+  shadowDecayHeight = "10.0"
+  shadowSizeScale = "1.0"
+  shadowBlur = "3.0"
+/>

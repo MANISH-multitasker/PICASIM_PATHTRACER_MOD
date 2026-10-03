@@ -1,0 +1,103 @@
+Version 1.4.0
+- Support for VR in menus, including overlay, with mouse input
+
+Version 1.3.3
+- Fix specular shader dependency on view direction. Small optimisations to shaders.
+- In-game UI available in VR (press "u" to toggle UI - with headset on or off)
+
+Version 1.3.2
+- Step down MSAA level if it causes window creation to fail.
+- Clamp MSAA in VR
+
+Version 1.3.1
+- Remove "availability" (previously used to differentiate free/paid versions)
+- Fix case problems in some configuration files
+
+Version 1.3.0
+- Android (first version)
+- Add icons
+- Switch licence to PolyForm Noncommercial License 
+- Click/drag in UI
+- Logging level can be set/loaded from the settings
+- Add shadow blur multiplier setting
+- Most library dependencies are pulled in through git sub-modules
+- Add a night-time skybox (Qwantani Moon)
+
+Version 1.2.0
+- Support parallax mapping in VR for panoramic scenes
+- Add the Bedlam model (thanks Richard West)
+- Add an indoor version of the Spitfire
+- Add the Sopwith Pup
+- Soft shadows
+- Reduce glider launch speeds
+- Remove support for OpenGL 1
+- Remove support for stereoscopic display (it was a poor substitute for VR)
+- Fix crash with circular runways but not a control-line plane
+
+Version 1.1.0
+- VR support (tested on Oculus Rift)
+
+Version 1.0.1
+- Fix logging location - will be %APPDATA%/Rowlhouse/PicaSim/Logs/
+- Add a PlayStation controller mapping (thanks 8vD!)
+- Support for joysticks (i.e. R/C transmitter interfaces) as well as gamepads
+- Fix opening joystick calibration
+- Support "copy" in PropellerEngine definitions. Tweak quads.
+- Fix toggling of fullscreen when pressing F during text input (saving)
+- Hopefully fixUI/ OpenGL errors
+
+Version 1.0.0
+- Complete port to SDL2 and OpenGL for Windows
+- New ImGui-based menu system replacing IwUI
+- OpenAL-Soft audio with 3D positional sound
+- SDL2 input handling (keyboard, mouse, gamepad)
+- CMake build system with vcpkg dependency management
+
+Version 0.1085
+- Add the Quark glider.
+- Update various links etc in plane descriptions.
+- Various tweaks/bug fixes.
+
+Version 0.1074
+- Add Litermonthalle Nalbach scenery by Detlef Jacobi.
+- Improve object editing.
+- Improve plane scaling.
+- Graphical improvements. If upgrading on a low-end device, you may need to disable \Separate Specular\ in the options if this causes too much slowdown.
+- Reduce the wind strength in front of slopes slightly.
+
+Version 0.1055
+- Turbulence improvements.
+- Add dual rates to Acrobat, and minor changes to a few other planes.
+
+Version 0.1053
+- Add variable-pitch propeller (VPP) version of the RT Eraser Five.
+- Bug fixes and minor improvements.
+
+Version 0.1039
+- Aerotow - enable in settings for all (pure) gliders.
+- AI support for aerotow (as glider or tug).
+- Button for release of the tow/launch rope.
+- Turbulence modelling improvements.
+- Added a User tab when loading planes and sceneries.
+- Fixes, including for bogus terrain collisions.
+- Support for higher resolution devices.
+
+Version 0.1000
+- AI controllers for all the powered R/C planes.
+- Adjust the Max Bee to have its proper span of 1.5m.
+- Changing ballast no longer adjusts the engine power.
+- Allow setting the control-line colour.
+
+Version 0.994
+- New control-line plane - the Max Bee.
+- Much more detailed/extensive crash detection.
+- Improved control-line simulation.
+- Sky grids and options to make a C/L circle/runway.
+- Option for cycling the smoke colours.
+- Various improvements and fixes.
+
+Version 0.963
+- Smoke - available for all planes.
+- New indoor plane - Yak 54.
+- Objects for flying control line in the Flatland sceneries.
+- Improvements/fixes to various planes.

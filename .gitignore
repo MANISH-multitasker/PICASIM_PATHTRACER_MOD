@@ -1,0 +1,60 @@
+ReferenceMaterial/
+Screenshots/
+
+# Build directories
+build/
+out/
+dist/
+cmake-build-*/
+
+# User data directories (created at runtime, not committed)
+data/UserData/
+data/UserSettings/
+data/trace.txt
+data/*.png
+data/*.jpg
+data/flight_timings.txt
+data/run.log
+
+# Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.ncb
+*.sdf
+*.opensdf
+
+# vcpkg
+vcpkg_installed/
+
+# IDE
+.idea/
+*.swp
+*~
+
+# Compiled files
+*.obj
+*.o
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+imgui.ini
+nul
+CodingStyleQueries.md
+data/VERSIONS.txt
+data/assets_manifest.txt
+
+# Android build artifacts
+android/.gradle/
+android/app/build/
+android/app/.cxx/
+android/build/
+android/local.properties
+*.apk
+*.aab
+android/logcat.txt
+android/keystore.properties
+
+.DS_Store

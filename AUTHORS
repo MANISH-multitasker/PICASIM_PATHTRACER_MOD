@@ -1,0 +1,33 @@
+# AUTHORS — PICASIM_PATHTRACER_MOD
+# =========================================================
+# This file lists the original creators and contributors
+# of the PICASIM_PATHTRACER_MOD project.
+#
+# If you fork or modify this project, you MUST keep this
+# file intact and give credit to the original author.
+# =========================================================
+
+## Original Author & Creator
+
+  Name    : MANISH
+  GitHub  : https://github.com/MANISH-multitasker
+  Project : https://github.com/MANISH-multitasker/PICASIM_PATHTRACER_MOD
+  Year    : 2026
+
+  Role    : Project creator, PathTracer mod developer, and maintainer.
+            Responsible for all original modifications including:
+              - PathTracer flight path visualization system
+              - Terrain selection and realism enhancements
+              - Custom UI improvements for PicaSim simulator
+
+## Base Simulator
+
+  PicaSim is an open-source RC flight simulator.
+  Original authors of PicaSim retain copyright over their respective code.
+  This mod does not claim ownership over the base PicaSim codebase.
+
+# =========================================================
+# Unauthorized redistribution without credit to MANISH
+# (github.com/MANISH-multitasker) is a violation of the
+# CC BY-NC 4.0 license terms.
+# =========================================================
